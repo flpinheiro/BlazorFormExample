@@ -1,0 +1,21 @@
+﻿@page "/people";
+@using BlazorFormExample.Service;
+
+@inject ILogger<Index> Logger
+@inject IPersonService service;
+
+<h3>People</h3>
+
+<PeopleTable People="@people.ToList()"/>
+
+<PeopleForm/>
+
+@code {
+    private IEnumerable<PersonViewModel> people = new List<PersonViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        people = await service.GetPeople();
+        //await base.OnInitializedAsync();
+    }
+}

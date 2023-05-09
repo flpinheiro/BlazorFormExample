@@ -1,0 +1,43 @@
+﻿@page "/paopletable";
+@using System.Diagnostics.CodeAnalysis;
+@inject ILogger<PeopleTable> Logger;
+
+<PageTitle>People Table</PageTitle>
+
+<h3>People Table</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in People)
+        {
+            <tr>
+                <td>@person.Name</td>
+                <td>@person.Surname</td>
+                <td>@person.Email</td>
+                <td>@person.Gender</td>
+                <td><button @onclick="@(() => Edit(person))">Edit</button></td>
+                <td><button @onclick="@(() => Remove(person))">Remove</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    [Parameter, AllowNull]
+    public IReadOnlyList<PersonViewModel> People { get; set; }
+
+    void Edit(PersonViewModel item) => Console.WriteLine($"Edit item: {item.Name}");
+    void Remove(PersonViewModel item) => Console.WriteLine($"Remove item: {item.Name}");
+
+}

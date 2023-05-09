@@ -1,0 +1,74 @@
+﻿@page "/peopleform";
+@using BlazorFormExample.Enums;
+@using System.Diagnostics;
+@using BlazorFormExample.Service;
+@inject ILogger<PeopleForm> Logger;
+@inject IPersonService service;
+
+<PageTitle>People Form</PageTitle>
+
+<h3>People Form</h3>
+
+<EditForm Model="@personModel" OnValidSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary Model="@personModel" />
+
+    <p>
+        <label>
+            Name
+            <InputText id="name" @bind-Value="personModel.Name" />
+        </label>
+    </p>
+
+    <p>
+        <label>
+            Surname
+            <InputText id="surname" @bind-Value="personModel.Surname" />
+        </label>
+    </p>
+
+    <p>
+        <label>
+            Emai
+            <InputText id="email" @bind-Value="personModel.Email" />
+        </label>
+    </p>
+
+    <p>
+        <label>
+            Select Gender:
+            <InputSelect @bind-Value="personModel.Gender">
+                <option value="@Gender.Male">Male</option>
+                <option value="@Gender.Female">Female</option>
+                <option value="@Gender.Other">Other</option>
+            </InputSelect>
+        </label>
+    </p>
+
+    <p>
+        Select Gender: <br />
+        <InputRadioGroup Name="Gender" @bind-Value="@personModel.Gender">
+            <label> <InputRadio Name="Gender" Value="Gender.Male" /> Male </label> <br />
+            <label> <InputRadio Name="Gender" Value="Gender.Female" /> Female </label> <br />
+            <label> <InputRadio Name="Gender" Value="Gender.Other" /> Other </label> <br />
+        </InputRadioGroup>
+    </p>
+
+    <p>
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    </p>
+</EditForm>
+
+@code {
+    private PersonViewModel personModel = new();
+
+    private void HandleSubmit()
+    {
+        Logger.LogInformation("HandleSubmit called logger");
+        Debug.WriteLine("HandleSubmit Called debug");
+        Console.WriteLine("handle submit console");
+        service.SubmitPerson(personModel);
+        // Process the form
+    }
+}
